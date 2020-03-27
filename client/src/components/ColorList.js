@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const initialColor = {
   color: "",
@@ -18,13 +18,59 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
+    const index = colors.findIndex(item => item.id === colorToEdit.id);
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
+    axiosWithAuth()
+      .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+      .then(res => {
+        console.log("%%" + colorToEdit.id);
+        let colorArray = colors;
+        colorArray[index] = res.data;
+
+        // update state in App through the setter function
+        // navigate user to the item page (or to the shop)
+        // (Potentially, you could just show a success message without navigating)
+        updateColors(colorArray);
+        console.log(colorArray);
+        updateColors(colorArray);
+        const newList = colorArray;
+        
+        updateColors(newList);
+        setEditing(false);
+      })
+      .catch(err => console.log(err));
+    // ********** Make the put request ********** //
   };
+    
+  
 
   const deleteColor = color => {
     // make a delete request to delete this color
+
+    const newSavedList = colors.filter(e => {
+      return e.id !== color.id;
+    });
+
+    updateColors(newSavedList);
+
+    axiosWithAuth()
+      .delete(`http://localhost:5000/api/colors/${color.id}`)
+      .then(res => {
+        //check saved list for movie, removes if it is there
+        const newSavedList = colors.filter(e => {
+          return e.id !== colors.id;
+        });
+        updateColors(newSavedList);
+        //set new list to reflect deleted item
+        const newList = colors.filter(e => {
+          return e.id !== color.id;
+        });
+        updateColors(newList);
+      //  history.push("/");
+      })
+      .catch(err => console.log(err));
   };
 
   return (
