@@ -35,13 +35,15 @@ const ColorList = ({ colors, updateColors }) => {
         updateColors(colorArray);
         console.log(colorArray);
         updateColors(colorArray);
-        const newList = colorArray;
-        
-        updateColors(newList);
         setEditing(false);
       })
       .catch(err => console.log(err));
     // ********** Make the put request ********** //
+    
+      axiosWithAuth().get('http://localhost:5000/api/colors')
+      .then(res => updateColors(res.data))
+      .catch(err => console.log(err))
+    
   };
     
   
@@ -58,7 +60,7 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .delete(`http://localhost:5000/api/colors/${color.id}`)
       .then(res => {
-        //check saved list for movie, removes if it is there
+        //check saved list for color, removes if it is there
         const newSavedList = colors.filter(e => {
           return e.id !== colors.id;
         });
@@ -68,7 +70,6 @@ const ColorList = ({ colors, updateColors }) => {
           return e.id !== color.id;
         });
         updateColors(newList);
-      //  history.push("/");
       })
       .catch(err => console.log(err));
   };
