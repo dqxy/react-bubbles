@@ -27,9 +27,21 @@ In this project you will create a login page and request a token from the server
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
 - [ ] Explain what a token is used for.
+
+A token is issued by the server, it is a string of cryptic text, which can be stored on the client-side using local storage or session storage. Used for authentication of users to protect data.
+
 - [ ] What steps can you take in your web apps to keep your data secure?
+
+Put components behind protected routes so that no data is loaded unless a token is verified by the server and matches the client. 
+The client will make a login request using a username and password. Then the server will check those credentials against the database. If it can authenticate the user it will return a token. Using the token, one can use protected routes and send an authentication header with API calls.
+
 - [ ] Describe how web servers work.
+
+A web server takes network requests over protocols such as HTTP. Servers store, process and retreive or deliver web content to nodes and clients. Client server communications takes place using the Hypertext Transfer Protocol.
+
 - [ ] Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers.
+
+When data needs to be UPDATED somewhere we use a PUT HTTP resource method. PUT is the “U” in CRUD, and it stands for UPDATE. We use the PUT method to change a resource’s information. PUT takes in a body object like POST and identifies data that needs to be updated somewhere.
 
 
 ## Project Set Up
